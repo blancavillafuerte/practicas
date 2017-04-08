@@ -1,0 +1,145 @@
+// SAF.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include "math.h"
+#define MAX 20
+
+using namespace std;
+void cargar_mat(int mat[MAX][MAX],int fil,int col);
+void leer_mat(int mat[MAX][MAX],int fil,int col);
+void mat_trans(int mat[MAX][MAX],int mat1[MAX][MAX],int fil,int col);
+void sum_mat(int mat[MAX][MAX], int mat1[MAX][MAX],int fil,int col);
+void mult_mat(int mat[MAX][MAX], int mat1[MAX][MAX],int fil,int col);
+
+void main()
+{
+	int A[MAX][MAX],B[MAX][MAX],fil,col,op;
+	do
+	{
+		cout<<endl;
+		cout<<"------------MENU------------"<<endl;
+		cout<<"OP.1 CARGAR MATRIZ."<<endl;
+		cout<<"OP.2 LEER MATRIZ."<<endl;
+		cout<<"OP.3 SACAR LA MATRIZ TRANSPUESTA."<<endl;
+		cout<<"OP.4 SUMA DE MATRICES."<<endl;
+		cout<<"OP.5 MULTIPLICACION DE MATRICES."<<endl;
+		cout<<"OP.0 SALIR."<<endl;
+		cin>>op;
+		switch(op)
+		{
+		case 1: {	cout<<"INGRESE EL NUMERO DE FILAS: "<<endl;
+					cin>>fil;
+					cout<<"INGRESE EL NUMERO DE COLUMNAS: "<<endl;
+					cin>>col;
+					cargar_mat(A,fil,col);
+					cout<<"LA MATRIZ YA ESTA CARGADA"<<endl;
+					break;
+				}
+		case 2: {   leer_mat(A,fil,col);
+					break;
+				}
+		case 3: {	
+					mat_trans(A,B,fil,col);
+					break;
+				}
+		case 4: {
+					sum_mat(A,B,fil,col);
+					break;
+				}
+		case 5: {
+					mult_mat(A,B,fil,col);
+					break;
+				}
+		case 0: {	cout<<"SALIR"<<endl;
+					break;
+				}
+		default: {cout<<"OPCION INVALIDA"<<endl;
+				 }
+		}
+	}while(op!=0);
+	getch();
+
+}
+void cargar_mat(int mat[MAX][MAX],int fil,int col)
+{
+	for(int i=0;i<fil;i++)
+		for(int j=0;j<col;j++)
+			{
+				cout<<"INGRESE EL VALOR PARA LA POSICION A["<<i<<"]["<<j<<"]";
+				cin>>mat[i][j];	
+			}
+}
+void leer_mat(int mat[MAX][MAX],int fil,int col)
+{
+	for(int i=0;i<fil;i++)
+		{for(int j=0;j<col;j++)
+			{
+				cout<<mat[i][j]<<"\t";	
+			}
+		cout<<endl;
+		}
+}
+void mat_trans(int mat[MAX][MAX],int mat1[MAX][MAX],int fil,int col)
+{   cout<<"LA TRANSPUESTA ES: "<<endl;
+	for(int i=0;i<col;i++)
+	{	for(int j=0;j<fil;j++)
+		{
+			mat1[i][j]=mat[j][i];
+			cout<<mat1[i][j]<<"\t";	
+		}
+		cout<<endl;
+	}
+}
+void sum_mat(int mat[MAX][MAX], int mat1[MAX][MAX],int fil,int col)
+{
+	int fil1,col1,c;
+
+	cout<<"INGRESE EL NUMERO DE FILAS DE LA SEGUNDA MATRIZ: "<<endl;
+	cin>>fil1;
+	cout<<"INGRESE EL NUMERO DE COLUMNAS DE LA SEGUNDA MATRIZ: "<<endl;
+	cin>>col1;				
+	
+	if((fil==fil1)&&(col==col1))
+	{	cargar_mat(mat1,fil1,col1);
+		cout<<"LA SUMA DE LAS DOS MATRICES ES: "<<endl;
+		for(int i=0;i<fil;i++)
+		{
+			for(int j=0;j<col;j++)
+			{
+				c=mat[i][j] + mat1[i][j];
+				cout<<c<<"\t";
+			}
+			cout<<endl;
+		}
+	}
+	else
+		cout<<"SOLO SE PUEDEN SUMAR MATRICES DEL MISMO ORDEN"<<endl;
+}
+void mult_mat(int mat[MAX][MAX], int mat1[MAX][MAX],int fil,int col)
+{
+	int fil1,col1,c;
+	cout<<"INGRESE EL NUMERO DE FILAS DE LA SEGUNDA MATRIZ."<<endl;
+	cin>>fil1;
+	cout<<"INGRESE EL NUMERO DE COLUMNAS DE LA SEGUNDA MATRIZ: "<<endl;
+	cin>>col1;				
+	
+	if(col==fil1)
+	{
+		cargar_mat(mat1,fil1,col1);
+		cout<<"la multiplicacion de dos vectores es: "<<endl;
+		for(int i=0;i<fil;i++)
+		{	for(int im=0;im<fil;im++)
+			{
+				c=0;
+				for(int j=0;j<col1;j++)
+					c= c+mat[i][j] * mat1[j][im];
+				cout<<c<<"\t";
+			}
+			cout<<endl;
+		}
+	}
+
+}
