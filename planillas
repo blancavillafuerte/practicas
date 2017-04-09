@@ -1,0 +1,100 @@
+// este.cpp : Defines the entry point for the console application.
+//
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include "math.h"
+#include <string>
+#define MAX 20
+using namespace std;
+struct vec
+{
+	int dia;
+	int mes;
+	int ano;
+};
+void leer_str(string A[MAX],int n);
+string nombre_apellido(string ap,string nom);
+void validar_fechas(int &dia,int &mes,int &ano);
+void menu();
+void main()
+{
+	int n,i,j,dia,mes,ano;
+	string ap,nom;
+	vec fnacimiento[MAX],finscripcion[MAX];
+	string apellido[MAX],nombre[MAX],completo[MAX];
+	cout<<"CUANTOS ALUMNOS SON?"<<endl;
+	cin>>n;
+	
+	for(int i=0;i<n;i++)
+	{
+		cin.ignore();
+		cout<<"INGRESE SU APELLIDOooo: ";
+		getline(cin,apellido[i]);
+		cout<<"INGRESE SU NOMBRE: ";
+		getline(cin,nombre[i]);
+		completo[i] = nombre_apellido(apellido[i] ,nombre[i]);
+
+		cout<<"INGRESE FECHA DE NACIMIENTO:(dd/mm/aa)  "<<endl;
+		validar_fechas(dia,mes,ano);
+		fnacimiento[i].dia=dia;
+		fnacimiento[i].mes=mes;
+		fnacimiento[i].ano=ano;
+	
+
+		cout<<"INGRESE FECHA DE INSCRIPCION:(dd/mm/aa)  "<<endl;
+		validar_fechas(dia,mes,ano);
+		finscripcion[i].dia=dia;
+		finscripcion[i].mes=mes;
+		finscripcion[i].ano=ano;
+	
+	}
+	menu();
+	for(int i=0;i<n;i++)
+	{
+		cout<<completo[i]<<"\t"<<"\t"<<"\t";
+		cout<<fnacimiento[i].dia<<"/";
+		cout<<fnacimiento[i].mes<<"/";
+		cout<<fnacimiento[i].ano<<"\t"<<"\t";
+		cout<<finscripcion[i].dia<<"/";
+		cout<<finscripcion[i].mes<<"/";
+		cout<<finscripcion[i].ano<<endl;
+
+	}
+	
+	getch();
+	
+}
+string nombre_apellido(string ap,string nom)
+{
+	string c;
+	c= nom+ap;
+	return (c);
+}
+void validar_fechas(int &dia,int &mes,int &ano)
+{
+	do{
+		cout<<"INGRESE DIA: ";
+		cin>>dia;
+	}while((dia<0)||(dia>31));
+	do{
+		cout<<"INGRESE MES: ";
+		cin>>mes;
+	}while((mes<0)||(mes>12));
+	do{
+		cout<<"INGRESE ANO: ";
+		cin>>ano;
+	}while((ano<1850)||(ano>2017));
+}
+void leer_str(string A[MAX],int n)
+{
+	for(int i=0;i<n;i++)
+		cout<<A[i]<<"\t";
+}
+void menu()
+{
+	cout<<"----------planilla------------"<<endl;
+	cout<<" APELLIDO Y NOMBRE "<<"\t";
+	cout<<" FECHA DE NAC "<<"\t";
+	cout<<" FECHA DE INSCRP "<<"\t"<<endl;
+}
