@@ -1,0 +1,106 @@
+// matriz de secuencias.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include "math.h"
+#define MAX 20
+using namespace std;
+void leer_mat(int A[MAX][MAX], int fil, int col);
+void sec_uno(int A[MAX][MAX], int fil, int col);
+void sec_dos(int A[MAX][MAX], int fil, int col);
+void main()
+{
+	int op,fil,col,mat[MAX][MAX];
+	do{
+
+		cout<<"-----------MENU------------"<<endl;
+		cout<<"Op 1.- Secuencia 1: 3,6,9,12 "<<endl;
+		cout<<"Op 2.- Secuencia 2: 1,4,9,61,52"<<endl;
+		cout<<"Op 3.- Secuencia 3: 1,1,2,4,8,16,23"<<endl;
+		cout<<"Op 3.- Secuencia 4: 1,1,2,4,8,7,5,10,11,13,8"<<endl;
+		cout<<"Op 0.- Salir"<<endl;
+		cin>>op;
+	
+		switch(op)
+		{
+		case 1: {
+					cout<<"INGRESE EL NUMERO DE FILAS"<<endl;
+					cin>>fil;
+					cout<<"INGRESE EL NUMERO DE COLUMNAS"<<endl;
+					cin>>col;
+					sec_uno(mat,fil,col);
+					break;
+				}
+		case 2: { 
+					cout<<"INGRESE EL NUMERO DE FILAS"<<endl;
+					cin>>fil;
+					cout<<"INGRESE EL NUMERO DE COLUMNAS"<<endl;
+					cin>>col;
+					sec_dos(mat,fil,col);
+					break;
+				}
+		case 0: {
+					cout<<"SALIR"<<endl;
+					break;
+				}
+		default: {
+					cout<<"OPCION INVALIDA"<<endl;
+					break;
+				 }
+		}
+		
+	}while(op!=0);
+	getch();
+}
+
+void sec_uno(int A[MAX][MAX], int fil, int col)
+{
+	int s=3,i,j;
+	for (int i=0;i<fil;i++)
+		for(int j=0;j<col;j++)
+		{
+			A[i][j]=s;
+			s=s+3;
+		}
+
+	leer_mat(A,fil,col);
+}
+void sec_dos(int A[MAX][MAX], int fil, int col)
+{
+	int i,s,p,numv=0,j,cont=1;
+	for(i=0;i<fil;i++)
+		for(j=0;j<col;j++)
+		{
+			s=powf(cont,2);
+			if((s/10)==0)
+				A[i][j]=s;
+			else
+			{	
+				do{
+					p=s%10;
+					numv=(numv*10)+(p);
+					s=s/10;
+				}while (s!=0);
+				A[i][j]=numv;
+			}
+			numv=0;
+			cont++;
+		}
+	leer_mat(A,fil,col);
+}
+
+
+void leer_mat(int A[MAX][MAX], int fil, int col)
+{
+	for (int i=0;i<fil;i++)
+	{
+		for(int j=0;j<col;j++)
+		{
+			cout<<A[i][j]<<"\t";
+		}
+		cout<<endl;
+	}
+}
+
