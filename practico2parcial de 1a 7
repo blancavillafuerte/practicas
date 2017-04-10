@@ -1,0 +1,221 @@
+// matrices.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include "math.h"
+#define MAX 20
+using namespace std;
+void cargar(int A[MAX][MAX],int fil,int col);
+void leer(int A[MAX][MAX], int fil, int col);
+void mat_trans(int A[MAX][MAX],int B[MAX][MAX],int fil,int col);
+void sumar_mat(int A[MAX][MAX],int B[MAX][MAX],int C[MAX][MAX],int fil,int col);
+void mult_mat(int A[MAX][MAX],int B[MAX][MAX],int C[MAX][MAX],int fil,int col,int col1);
+void verif_magica(int A[MAX][MAX], int n);
+void mat_caracol(int A[MAX][MAX],int n);
+
+void main()
+{
+	int op,fil,col,fil1,col1,n,m[MAX][MAX],t[MAX][MAX],s[MAX][MAX];
+	do{
+		cout<<"------------MENU--------------"<<endl;
+		cout<<"Op1. sacar la transpuesta de una matriz."<<endl;
+		cout<<"Op2. sacar la inversa de una matriz."<<endl;
+		cout<<"Op3. sacar la suma de dos matrices."<<endl;
+		cout<<"Op4. multiplicar dos matrices."<<endl;
+		cout<<"Op5. verificar si es una matriz magica."<<endl;
+		cout<<"Op6. cargar matriz caracol."<<endl;
+		cout<<"Op0. SALIR"<<endl;
+		cin>>op;
+		switch(op)
+		{
+		case 1: {
+					cout<<"INGRESE EL NUMERO FILAS"<<endl;
+					cin>>fil;
+					cout<<"INGRESE EL NUMERO DE COLUMNAS"<<endl;
+					cin>>col;
+					cargar(m,fil,col);
+					leer(m,fil,col);
+					mat_trans(m,t,fil,col);
+					break;
+				}
+		case 3: {
+					cout<<"INGRESE EL NUMERO DE FILAS"<<endl;
+					cin>>fil;
+					cout<<"INGRESE EL NUMERO DE COLUMNAS"<<endl;
+					cin>>col;
+					cargar(m,fil,col);
+					cargar(t,fil,col);
+					sumar_mat(m,t,s,fil,col);
+					break;
+				}
+		case 4: {
+					cout<<"INGRESE EL NUMERO DE FILAS DE MAT 1:"<<endl;
+					cin>>fil;
+					cout<<"INGRESE EL NUMERO DE COLUMNAS DE MAT 1"<<endl;
+					cin>>col;
+					cargar(m,fil,col);
+					do{
+						cout<<"INGRESE EL NUMERO DE FILAS DE MAT 2:"<<endl;
+						cin>>fil1;
+						cout<<"INGRESE EL NUMERO DE COLUMNAS DE MAT 2"<<endl;
+						cin>>col1;
+					}while(col!=fil1);
+					cargar(t,fil1,col1);
+					mult_mat(m,t,s,fil,col,col1);
+					leer(s,fil,col1);
+					break;
+				}
+		case 5: {
+					cout<<"INGRESE EL ORDEN DE SU MATRIZ:"<<endl;
+					cin>>n;
+					cargar(m,n,n);
+					verif_magica(m,n);
+					break;
+				}
+
+		case 6: {
+					cout<<"INGRESE EL ORDEN DE SU MATRIZ CUADRADA"<<endl;
+					cin>>n;
+					mat_caracol(m,n);
+					break;
+				}
+		case 0: {
+					cout<<"SALIR"<<endl;
+					break;
+				}
+		default: {
+					cout<<"OPCION INVALIDA"<<endl;
+				 }
+		}
+	}while(op!=0);
+	getch();
+					
+}
+void mat_trans(int A[MAX][MAX],int B[MAX][MAX],int fil,int col)
+{
+	int i,j;
+	for(i=0;i<col;i++)
+		for(j=0;j<fil;j++)
+			B[i][j]=A[j][i];
+	cout<<"LA MATRIZ TRANSPUESTA ES: "<<endl;
+	leer(B,col,fil);
+}
+void sumar_mat(int A[MAX][MAX],int B[MAX][MAX],int C[MAX][MAX],int fil,int col)
+{
+	int i,j;
+	for(i=0;i<col;i++)
+		for(j=0;j<fil;j++)
+			C[i][j]=A[i][j] + B[i][j];
+	cout<<"LA MATRIZ SUMA ES: "<<endl;
+	leer(C,col,fil);
+}
+void mat_caracol(int A[MAX][MAX],int n)
+{	int i,j,cont=0,d=1;
+	while(cont<n/2)
+	{
+		for(int i=cont;i<n-cont;i++)
+		{
+			A[cont][i]=d;
+			d++;
+		}
+		for(int i=cont+1;i<n-cont;i++)
+		{
+			A[i][n-1-cont]=d;
+			d++;
+		}
+		for(int i=n-2-cont;i>=cont;i--)
+		{
+			A[n-1-cont][i]=d;
+			d++;
+		}
+		for(i=n-2-cont;i>cont;i--)
+		{
+			A[i][cont]=d;
+			d++;
+		}
+		cont++;
+	}
+	if(n%2!=0)
+		A[n/2][n/2]=n*n;
+
+	cout<<"LA MATRIZ CARACOooL ES: "<<endl;
+	leer(A,n,n);
+}
+void mult_mat(int A[MAX][MAX],int B[MAX][MAX],int C[MAX][MAX],int fil,int col,int col1)
+{
+	int d;
+	
+	for(int i=0;i<fil;i++)
+		for(int j=0;j<col1;j++)
+		{
+			d=0;
+			for(int m=0;m<col;m++)
+				d=d+( A[i][m]*B[m][j] );
+			C[i][j]=d;
+		}
+			
+}
+void leer(int A[MAX][MAX], int fil, int col)
+{
+	int i,j;
+	for(i=0;i<fil;i++)
+	{
+		for(j=0;j<col;j++)
+		{
+			
+			cout<<A[i][j]<<"\t";
+		}
+		cout<<endl;
+	}
+}
+void cargar(int A[MAX][MAX],int fil,int col)
+{
+	int i,j;
+	cout<<"INGRESE LOS VALORES PARA: "<<endl;
+	for(i=0;i<fil;i++)
+		for(j=0;j<col;j++)
+		{
+			cout<<"A["<<i<<"]["<<j<<"]: "<<endl;
+			cin>>A[i][j];
+		}
+}
+void verif_magica(int A[MAX][MAX], int n)
+{
+	int f,c,i=0,d=0,d1=0,tamv=0, vec[MAX],b;
+	for(int i=0;i<n;i++)
+	{
+		f=0;
+		c=0;
+		for(int j=0;j<n;j++)
+		{
+			f=f+A[i][j];
+			c=c+A[j][i];
+		}
+		vec[tamv]=f;
+		tamv++;
+		vec[tamv]=c;
+		tamv++;
+	}
+	for(int i=0;i<n;i++)
+		d=d+A[i][i];
+			
+	vec[tamv]=d;
+	tamv++;
+
+	for(int i=0;i<n;i++)
+		d1=d1+A[i][n-1-i];
+	vec[tamv]=d1;
+	tamv++;
+	b=0;
+	for(int i=0;i<tamv-1;i++)
+		if(vec[i]!=vec[i+1])
+			b=1;
+	if(b==1)
+		cout<<"LA MATRIZ NO ES MAGICA"<<endl;
+	else
+		cout<<"LA MATRIZ ES MAGICA"<<endl;
+		
+}
+			
