@@ -14,7 +14,7 @@ void sumar_mat(int A[MAX][MAX],int B[MAX][MAX],int C[MAX][MAX],int fil,int col);
 void mult_mat(int A[MAX][MAX],int B[MAX][MAX],int C[MAX][MAX],int fil,int col,int col1);
 void verif_magica(int A[MAX][MAX], int n);
 void mat_caracol(int A[MAX][MAX],int n);
-
+void mat_diagonal(int A[MAX][MAX],int n);
 void main()
 {
 	int op,fil,col,fil1,col1,n,m[MAX][MAX],t[MAX][MAX],s[MAX][MAX];
@@ -26,6 +26,7 @@ void main()
 		cout<<"Op4. multiplicar dos matrices."<<endl;
 		cout<<"Op5. verificar si es una matriz magica."<<endl;
 		cout<<"Op6. cargar matriz caracol."<<endl;
+		cout<<"Op7. cargar matriz diagonalmente. "<<endl;
 		cout<<"Op0. SALIR"<<endl;
 		cin>>op;
 		switch(op)
@@ -79,6 +80,13 @@ void main()
 					cout<<"INGRESE EL ORDEN DE SU MATRIZ CUADRADA"<<endl;
 					cin>>n;
 					mat_caracol(m,n);
+					break;
+				}
+		case 7: {
+					cout<<"intrudusca el orden de la matriz: "<<endl;
+					cin>>n;
+					mat_diagonal(m,n);
+					leer(m,n,n);
 					break;
 				}
 		case 0: {
@@ -165,7 +173,7 @@ void leer(int A[MAX][MAX], int fil, int col)
 		for(j=0;j<col;j++)
 		{
 			
-			cout<<A[i][j]<<"\t";
+			cout<<"\t"<<A[i][j];
 		}
 		cout<<endl;
 	}
@@ -219,3 +227,17 @@ void verif_magica(int A[MAX][MAX], int n)
 		
 }
 			
+void mat_diagonal(int A[MAX][MAX],int n)
+{
+	int c,i,j,d=0;
+	for(c=0;c<(2*n)-1;c++)
+		for(i=0;i<n;i++)
+			for(j=0;j<n;j++)
+				if((i+j)==c)
+				{
+					d=d+1;
+					A[j][i]=d;
+				}
+	cout<<"LA MATRIZ ES: "<<endl;
+}
+
