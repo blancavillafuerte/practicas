@@ -44,9 +44,9 @@ void mainEncargado();
 struct usuario
 {
 	int idusuario;
-	string nombre;
-	string contrasena;
-	string ce;
+	char nombre[20];
+	char contrasena[20];
+	char ce;
 	int estado;
 };
 struct cliente_tractor
@@ -111,8 +111,8 @@ void mainIngreso()
 			addusuario();
 			mostrarusuario();
 			break;
-			//Agregue el case 3 y el defautl//
-		case 3:
+			//Agregue el case 0 y el defautl//
+		case 0:
 			{cout<<"SALIR"<<endl;
 			break;
 			}
@@ -126,7 +126,7 @@ void mainIngreso()
 void mainAcceso()
 {
 	int id;
-	string dato;
+	char dato[20];
 	FILE *ptr;
 	usuario reg;
 	cout << endl << "---------------------------------------";
@@ -134,10 +134,8 @@ void mainAcceso()
 	cout << endl << "---------------------------------------";
 	cout << endl << "Usuario: ";
 	cin >> id;
-	cout << endl << "Contrasena: ";
-	do{
-		getline(cin, dato);
-	}while(dato.size()==0);
+	cout << endl << "Contrasena: "; 
+	dato=toupper(getche()); 
 	ptr = fopen("Usuarios.dat","rb");
 	if(ptr != NULL)
 	{
@@ -146,7 +144,7 @@ void mainAcceso()
 		{
 			if(reg.idusuario == id)
 			{
-				if(reg.ce == "E")
+				if(reg.ce == 'E')
 				{
 					mainEncargado();
 					fclose(ptr);
@@ -316,17 +314,20 @@ void addusuario()
 	cout << endl << "Ingresar un Id de Usuario: ";
 	cin >> reg.idusuario;
 	cout << endl << "Ingrese el nombre de usuario: ";
-	do{
-		getline(cin, reg.nombre);
-	}while(reg.nombre.size()==0);
-	cout << endl << "Ingrese la contrasena: ";
-	do{
-		getline(cin,reg.contrasena);
-	}while(reg.contrasena.size()==0);
+	//MODIFIQUE ESTE NOMBRE y contrasena A CHHHAAAARRR
+	reg.nombre=toupper(getche()); 
+  	
+	cout << endl << "Ingrese la contrasena: "; 
+	reg.contrasena=toupper(getche()); 
+		
+	//MODIFIQUE PARA ce CHAR
 	cout << endl << "C / E ?: ";
-	do{
-		getline(cin,reg.ce);
-	}while(reg.ce.size()==0);
+	do 
+  	{ 
+    		cout << endl << "C / E ?: "; 
+		reg.ce=toupper(getche()); 
+  	}while(reg.ce!='C' && reg.ce!='E'); 
+	
 	reg.estado = 0;
 	fwrite(&reg, sizeof(reg), 1, ptr);
 	fclose(ptr);
@@ -583,7 +584,7 @@ bool obtenerCE(int id,string dato)
 		fread(&reg,sizeof(reg),1,ptr);
 		if(id == reg.idusuario)
 		{
-			if(reg.ce == "E")
+			if(reg.ce == 'E')
 			{
 				k = true;
 			}
@@ -724,14 +725,13 @@ void modificarUsuario()
 		if(!feof(ptr) && reg.estado == 0)
 		{
 			reg.idusuario = id;
+			//AAQUIII TAMBIEN MODIFIQUEEE!!! A CHAR
 			cout << endl << "Ingrese el nombre: ";
-			do{
-				getline(cin,reg.nombre);
-			}while(reg.nombre.size() == 0);
+			reg.nombre=toupper(getche()); 
+	
 			cout << endl << "Ingrese contrase�a: ";
-			do{
-				getline(cin,reg.contrasena);
-			}while(reg.contrasena.size() == 0);
+			reg.contrasena=toupper(getche()); 
+			
 			reg.estado = 0;
 			fseek(ptr,(pos-1)*sizeof(reg),SEEK_SET);
 			fwrite(&reg,sizeof(reg),1,ptr);
